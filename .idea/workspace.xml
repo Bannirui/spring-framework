@@ -2,28 +2,45 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dbf1084b-5add-41b2-ad03-6823f9804f1e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spring-learn-demo/src/main/java/learn/demo/DemoApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spring-learn-demo/src/main/java/learn/demo/app/AppConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spring-learn-demo/src/main/java/learn/demo/service/impl/A.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spring-learn-demo/src/main/java/learn/demo/service/impl/B.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5.1/fileContent/fileContent.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5.1/fileContent/fileContent.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.5.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.5.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5.1/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5.1/javaCompile/jarAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/6.5.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5.1/javaCompile/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/workspace-id.txt.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/workspace-id.txt.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/buildSrc/.gradle/6.5.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/buildSrc/.gradle/6.5.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/buildSrc/.gradle/6.5.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/buildSrc/.gradle/6.5.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/buildSrc/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/buildSrc/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-beans/build/classes/groovy/main/org/springframework/beans/factory/support/AbstractBeanFactory$BeanPostProcessorCache.class" beforeDir="false" afterPath="$PROJECT_DIR$/spring-beans/build/classes/groovy/main/org/springframework/beans/factory/support/AbstractBeanFactory$BeanPostProcessorCache.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-beans/build/classes/groovy/main/org/springframework/beans/factory/support/AbstractBeanFactory$BeanPostProcessorCacheAwareList.class" beforeDir="false" afterPath="$PROJECT_DIR$/spring-beans/build/classes/groovy/main/org/springframework/beans/factory/support/AbstractBeanFactory$BeanPostProcessorCacheAwareList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-beans/build/classes/groovy/main/org/springframework/beans/factory/support/AbstractBeanFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/spring-beans/build/classes/groovy/main/org/springframework/beans/factory/support/AbstractBeanFactory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-beans/build/classes/groovy/main/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.class" beforeDir="false" afterPath="$PROJECT_DIR$/spring-beans/build/classes/groovy/main/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-beans/build/libs/spring-beans-5.3.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/spring-beans/build/libs/spring-beans-5.3.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-beans/src/main/java/org/springframework/beans/factory/support/AbstractBeanFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-beans/src/main/java/org/springframework/beans/factory/support/AbstractBeanFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultListableBeanFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultListableBeanFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-context/build/classes/java/main/org/springframework/context/annotation/AnnotationConfigApplicationContext.class" beforeDir="false" afterPath="$PROJECT_DIR$/spring-context/build/classes/java/main/org/springframework/context/annotation/AnnotationConfigApplicationContext.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-context/build/classes/java/main/org/springframework/context/annotation/AnnotationConfigUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/spring-context/build/classes/java/main/org/springframework/context/annotation/AnnotationConfigUtils.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-context/build/libs/spring-context-5.3.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/spring-context/build/libs/spring-context-5.3.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-context/src/main/java/org/springframework/context/annotation/AnnotationConfigApplicationContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-context/src/main/java/org/springframework/context/annotation/AnnotationConfigApplicationContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-context/src/main/java/org/springframework/context/annotation/AnnotationConfigUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-context/src/main/java/org/springframework/context/annotation/AnnotationConfigUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-learn-demo/build/classes/java/main/learn/demo/DemoApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/spring-learn-demo/build/classes/java/main/learn/demo/DemoApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-learn-demo/build/classes/java/main/learn/demo/app/AppConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/spring-learn-demo/build/classes/java/main/learn/demo/app/AppConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-learn-demo/build/classes/java/main/learn/demo/service/impl/A.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-learn-demo/build/classes/java/main/learn/demo/service/impl/B.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-learn-demo/build/tmp/compileJava/source-classes-mapping.txt" beforeDir="false" afterPath="$PROJECT_DIR$/spring-learn-demo/build/tmp/compileJava/source-classes-mapping.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-learn-demo/src/main/java/learn/demo/DemoApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-learn-demo/src/main/java/learn/demo/DemoApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-learn-demo/src/main/java/learn/demo/app/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-learn-demo/src/main/java/learn/demo/app/AppConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-learn-demo/src/main/java/learn/demo/service/impl/A.java" beforeDir="false" afterPath="$PROJECT_DIR$/spring-learn-demo/src/main/java/learn/demo/service/impl/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-learn-demo/src/main/java/learn/demo/service/impl/B.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,6 +113,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="GO_FMT" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -116,7 +134,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="settings.editor.selected.configurable" value="preferences.customizations" />
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
   <component name="ReactorSettings">
@@ -153,12 +171,27 @@
       <option name="presentableId" value="Default" />
       <updated>1597140484329</updated>
       <workItem from="1597140486449" duration="2123000" />
-      <workItem from="1597143097294" duration="7094000" />
+      <workItem from="1597143097294" duration="7403000" />
+      <workItem from="1597218335939" duration="2764000" />
+      <workItem from="1597293211870" duration="7464000" />
+      <workItem from="1597405170964" duration="6610000" />
     </task>
+    <task id="LOCAL-00001" summary="调试demo">
+      <created>1597156397893</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1597156397893</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="调试demo" />
+    <option name="LAST_COMMIT_MESSAGE" value="调试demo" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -169,66 +202,82 @@
     </environment>
   </component>
   <component name="WindowStateProjectService">
-    <state x="384" y="141" key="#Project_Structure" timestamp="1597154495569">
+    <state x="384" y="141" key="#Project_Structure" timestamp="1597405234235">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="384" y="141" key="#Project_Structure/0.0.1792.1120@0.0.1792.1120" timestamp="1597154495569" />
+    <state x="384" y="141" key="#Project_Structure/0.0.1792.1120@0.0.1792.1120" timestamp="1597405234235" />
     <state x="360" y="222" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597155986500">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state x="360" y="222" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1597155986500" />
-    <state x="709" y="273" key="#com.intellij.ide.util.MemberChooser" timestamp="1597154930368">
+    <state x="709" y="273" key="#com.intellij.ide.util.MemberChooser" timestamp="1597299596671">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="709" y="273" key="#com.intellij.ide.util.MemberChooser/0.0.1792.1120@0.0.1792.1120" timestamp="1597154930368" />
-    <state x="720" y="296" width="745" height="581" key="#xdebugger.evaluate" timestamp="1597156215757">
+    <state x="709" y="273" key="#com.intellij.ide.util.MemberChooser/0.0.1792.1120@0.0.1792.1120" timestamp="1597299596671" />
+    <state x="344" y="498" width="745" height="581" key="#xdebugger.evaluate" timestamp="1597415942385">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="720" y="296" width="745" height="581" key="#xdebugger.evaluate/0.0.1792.1120@0.0.1792.1120" timestamp="1597156215757" />
-    <state width="1452" height="426" key="GridCell.Tab.0.bottom" timestamp="1597156284369">
+    <state x="344" y="498" width="745" height="581" key="#xdebugger.evaluate/0.0.1792.1120@0.0.1792.1120" timestamp="1597415942385" />
+    <state x="352" y="128" key="CommitChangelistDialog2" timestamp="1597156395699">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1452" height="426" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1597156284369" />
-    <state width="1452" height="426" key="GridCell.Tab.0.bottom/0.23.1792.1014@0.23.1792.1014" timestamp="1597155992263" />
-    <state width="1452" height="426" key="GridCell.Tab.0.center" timestamp="1597156284368">
+    <state x="352" y="128" key="CommitChangelistDialog2/0.0.1792.1120@0.0.1792.1120" timestamp="1597156395699" />
+    <state width="530" height="466" key="DebuggerActiveHint" timestamp="1597413327645">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1452" height="426" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1597156284368" />
-    <state width="1452" height="426" key="GridCell.Tab.0.center/0.23.1792.1014@0.23.1792.1014" timestamp="1597155992262" />
-    <state width="1452" height="426" key="GridCell.Tab.0.left" timestamp="1597156284368">
+    <state width="530" height="466" key="DebuggerActiveHint/0.0.1792.1120@0.0.1792.1120" timestamp="1597413327645" />
+    <state width="974" height="341" key="GridCell.Tab.0.bottom" timestamp="1597415588074">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1452" height="426" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1597156284368" />
-    <state width="1452" height="426" key="GridCell.Tab.0.left/0.23.1792.1014@0.23.1792.1014" timestamp="1597155992262" />
-    <state width="1452" height="426" key="GridCell.Tab.0.right" timestamp="1597156284369">
+    <state width="974" height="341" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1597415588074" />
+    <state width="790" height="202" key="GridCell.Tab.0.bottom/0.23.1792.1014@0.23.1792.1014" timestamp="1597412743276" />
+    <state width="974" height="341" key="GridCell.Tab.0.center" timestamp="1597415588073">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1452" height="426" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1597156284369" />
-    <state width="1452" height="426" key="GridCell.Tab.0.right/0.23.1792.1014@0.23.1792.1014" timestamp="1597155992346" />
-    <state width="1452" height="426" key="GridCell.Tab.1.bottom" timestamp="1597156284372">
+    <state width="974" height="341" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1597415588073" />
+    <state width="790" height="202" key="GridCell.Tab.0.center/0.23.1792.1014@0.23.1792.1014" timestamp="1597412743275" />
+    <state width="974" height="341" key="GridCell.Tab.0.left" timestamp="1597415588073">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1452" height="426" key="GridCell.Tab.1.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1597156284372" />
-    <state width="1452" height="426" key="GridCell.Tab.1.bottom/0.23.1792.1014@0.23.1792.1014" timestamp="1597155992265" />
-    <state width="1452" height="426" key="GridCell.Tab.1.center" timestamp="1597156284370">
+    <state width="974" height="341" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1597415588073" />
+    <state width="790" height="202" key="GridCell.Tab.0.left/0.23.1792.1014@0.23.1792.1014" timestamp="1597412743275" />
+    <state width="974" height="341" key="GridCell.Tab.0.right" timestamp="1597415588173">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1452" height="426" key="GridCell.Tab.1.center/0.0.1792.1120@0.0.1792.1120" timestamp="1597156284370" />
-    <state width="1452" height="426" key="GridCell.Tab.1.center/0.23.1792.1014@0.23.1792.1014" timestamp="1597155992264" />
-    <state width="1452" height="426" key="GridCell.Tab.1.left" timestamp="1597156284370">
+    <state width="974" height="341" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1597415588173" />
+    <state width="790" height="202" key="GridCell.Tab.0.right/0.23.1792.1014@0.23.1792.1014" timestamp="1597412743396" />
+    <state width="974" height="341" key="GridCell.Tab.1.bottom" timestamp="1597415588075">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1452" height="426" key="GridCell.Tab.1.left/0.0.1792.1120@0.0.1792.1120" timestamp="1597156284370" />
-    <state width="1452" height="426" key="GridCell.Tab.1.left/0.23.1792.1014@0.23.1792.1014" timestamp="1597155992264" />
-    <state width="1452" height="426" key="GridCell.Tab.1.right" timestamp="1597156284371">
+    <state width="974" height="341" key="GridCell.Tab.1.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1597415588075" />
+    <state width="790" height="202" key="GridCell.Tab.1.bottom/0.23.1792.1014@0.23.1792.1014" timestamp="1597412743278" />
+    <state width="974" height="341" key="GridCell.Tab.1.center" timestamp="1597415588075">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state width="1452" height="426" key="GridCell.Tab.1.right/0.0.1792.1120@0.0.1792.1120" timestamp="1597156284371" />
-    <state width="1452" height="426" key="GridCell.Tab.1.right/0.23.1792.1014@0.23.1792.1014" timestamp="1597155992264" />
-    <state x="397" y="199" key="SettingsEditor" timestamp="1597153404257">
+    <state width="974" height="341" key="GridCell.Tab.1.center/0.0.1792.1120@0.0.1792.1120" timestamp="1597415588075" />
+    <state width="790" height="202" key="GridCell.Tab.1.center/0.23.1792.1014@0.23.1792.1014" timestamp="1597412743277" />
+    <state width="974" height="341" key="GridCell.Tab.1.left" timestamp="1597415588074">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
-    <state x="397" y="199" key="SettingsEditor/0.0.1792.1120@0.0.1792.1120" timestamp="1597153404257" />
+    <state width="974" height="341" key="GridCell.Tab.1.left/0.0.1792.1120@0.0.1792.1120" timestamp="1597415588074" />
+    <state width="790" height="202" key="GridCell.Tab.1.left/0.23.1792.1014@0.23.1792.1014" timestamp="1597412743277" />
+    <state width="974" height="341" key="GridCell.Tab.1.right" timestamp="1597415588075">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="974" height="341" key="GridCell.Tab.1.right/0.0.1792.1120@0.0.1792.1120" timestamp="1597415588075" />
+    <state width="790" height="202" key="GridCell.Tab.1.right/0.23.1792.1014@0.23.1792.1014" timestamp="1597412743277" />
+    <state x="397" y="199" key="SettingsEditor" timestamp="1597156519115">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="397" y="199" key="SettingsEditor/0.0.1792.1120@0.0.1792.1120" timestamp="1597156519115" />
+    <state x="496" y="300" key="Vcs.Push.Dialog.v2" timestamp="1597156538555">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="496" y="300" key="Vcs.Push.Dialog.v2/0.0.1792.1120@0.0.1792.1120" timestamp="1597156538555" />
+    <state x="144" y="315" width="713" height="490" key="find.popup" timestamp="1597296334646">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="144" y="315" width="713" height="490" key="find.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1597296334646" />
     <state x="264" y="223" key="new project wizard" timestamp="1597150305521">
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
@@ -243,9 +292,40 @@
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/spring-learn-demo/src/main/java/learn/demo/DemoApplication.java</url>
-          <line>14</line>
-          <option name="timeStamp" value="6" />
+          <condition expression="beanName.equals(&quot;person&quot;)" language="JAVA" />
+          <url>file://$PROJECT_DIR$/spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.java</url>
+          <line>127</line>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/spring-context/src/main/java/org/springframework/context/support/AbstractApplicationContext.java</url>
+          <line>571</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/spring-context/src/main/java/org/springframework/context/support/AbstractApplicationContext.java</url>
+          <line>568</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/spring-context/src/main/java/org/springframework/context/support/AbstractApplicationContext.java</url>
+          <line>587</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/spring-context/src/main/java/org/springframework/context/annotation/AnnotationConfigApplicationContext.java</url>
+          <line>113</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/spring-context/src/main/java/org/springframework/context/annotation/AnnotationConfigApplicationContext.java</url>
+          <line>111</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/spring-context/src/main/java/org/springframework/context/annotation/AnnotationConfigApplicationContext.java</url>
+          <line>112</line>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

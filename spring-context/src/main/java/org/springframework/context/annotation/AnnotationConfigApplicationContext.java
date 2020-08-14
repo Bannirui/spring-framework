@@ -16,9 +16,6 @@
 
 package org.springframework.context.annotation;
 
-import java.util.Arrays;
-import java.util.function.Supplier;
-
 import org.springframework.beans.factory.config.BeanDefinitionCustomizer;
 import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -27,6 +24,9 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.metrics.StartupStep;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+
+import java.util.Arrays;
+import java.util.function.Supplier;
 
 /**
  * Standalone application context, accepting <em>component classes</em> as input &mdash;
@@ -55,8 +55,10 @@ import org.springframework.util.Assert;
  */
 public class AnnotationConfigApplicationContext extends GenericApplicationContext implements AnnotationConfigRegistry {
 
+	// 注解BeanDefinition读取器 主要作用是读取被注解的Bean
 	private final AnnotatedBeanDefinitionReader reader;
 
+	// 扫描器 仅仅在外部手动调用.scan等方法才用 常规方式不会用到该对象
 	private final ClassPathBeanDefinitionScanner scanner;
 
 
@@ -64,10 +66,15 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * Create a new AnnotationConfigApplicationContext that needs to be populated
 	 * through {@link #register} calls and then manually {@linkplain #refresh refreshed}.
 	 */
+	/**
+	 * 执行这个无参构造函数会隐式的调用父类的构造函数 也就是GenericApplicationContext new出来一个DefaultListableBeanFactory
+	 */
 	public AnnotationConfigApplicationContext() {
 		StartupStep createAnnotatedBeanDefReader = this.getApplicationStartup().start("spring.context.annotated-bean-reader.create");
+		// 初始化一个Bean读取器 调用AnnotatedBeanDefinitionReader的构造函数 入参是AnnotationConfigApplicationContext的实例
 		this.reader = new AnnotatedBeanDefinitionReader(this);
 		createAnnotatedBeanDefReader.end();
+		// 初始化一个扫描器
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}
 
@@ -87,7 +94,21 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * @param componentClasses one or more component classes &mdash; for example,
 	 * {@link Configuration @Configuration} classes
 	 */
+	/**
+	 * 有参构造器 可以是多个annotatedClass 一般情况下只会传入一个配置类
+	 * 传入的配置类有两种情况：
+	 *     1，@Configuration注解的配置类（Full配置类）
+	 *     2，@Component、@Import、@ImportResource、@Service、@ComponentScan等配置类（Lite配置类或者普通Bean）
+	 */
 	public AnnotationConfigApplicationContext(Class<?>... componentClasses) {
+		/**
+		 * 调用本类的无参构造函数，做了两件事情：
+		 *     1，隐式调用父类GenericApplicationContext的无参构造函数
+		 *         new一个DefaultListableBeanFactory赋值给beanFactory
+		 *     2，初始化本类属性值
+		 *         Bean读取器
+		 *         扫描器
+		 */
 		this();
 		register(componentClasses);
 		refresh();
@@ -100,8 +121,11 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 * @param basePackages the packages to scan for component classes
 	 */
 	public AnnotationConfigApplicationContext(String... basePackages) {
+		// 调用构造函数
 		this();
+		// 注册我们的配置类
 		scan(basePackages);
+		// ioc容器刷新接口
 		refresh();
 	}
 

@@ -1,7 +1,5 @@
-learn/demo/service/impl/A.java
- learn.demo.service.impl.A
-learn/demo/service/impl/B.java
- learn.demo.service.impl.B
+learn/demo/service/impl/Person.java
+ learn.demo.service.impl.Person
 learn/demo/app/AppConfig.java
  learn.demo.app.AppConfig
 learn/demo/DemoApplication.java

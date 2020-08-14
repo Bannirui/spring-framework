@@ -16,11 +16,6 @@
 
 package org.springframework.context.annotation;
 
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -37,6 +32,11 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
+
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Utility class that allows for convenient registration of common
@@ -145,6 +145,7 @@ public abstract class AnnotationConfigUtils {
 	 * @return a Set of BeanDefinitionHolders, containing all bean definitions
 	 * that have actually been registered by this call
 	 */
+	// 这儿的这个入参registry就是new出来的AnnotationConfigApplicationContext 空的ioc容器
 	public static Set<BeanDefinitionHolder> registerAnnotationConfigProcessors(
 			BeanDefinitionRegistry registry, @Nullable Object source) {
 
@@ -160,6 +161,17 @@ public abstract class AnnotationConfigUtils {
 
 		Set<BeanDefinitionHolder> beanDefs = new LinkedHashSet<>(8);
 
+		/**
+		 * 判断容器中是否存在内置的bean 不存在的话就注册到registry中beanFactory中beanDefinitionMap中 也添加到beanDefs这个LinkedHashSet中
+		 * 一共5个内置bean
+		 *     internalConfigurationClassPostProcessor，这个极其重要
+		 *         ConfigurationClassPostProcessor--->实现了--->BeanDefinitionRegistryPostProcessor接口--->扩展了--->BeanFactoryPostProcessor接口
+		 *             BeanFactoryPostProcessor是spring的扩展点之一
+		 *     internalAutowiredAnnotationBeanPostProcessor
+		 *     internalCommonAnnotationBeanPostProcessor
+		 *     internalEventListenerFactory
+		 *     internalEventListenerProcessor
+		 */
 		if (!registry.containsBeanDefinition(CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition(ConfigurationClassPostProcessor.class);
 			def.setSource(source);
