@@ -1,6 +1,7 @@
 package learn.demo.service.impl;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
@@ -9,6 +10,7 @@ import javax.annotation.PostConstruct;
  * @create 2020-08-11 9:48 下午
  * @Description
  */
+@Component
 public class Person implements InitializingBean {
 
 	private String name;

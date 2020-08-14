@@ -16,9 +16,6 @@
 
 package org.springframework.context.annotation;
 
-import java.lang.annotation.Annotation;
-import java.util.function.Supplier;
-
 import org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionCustomizer;
@@ -32,6 +29,9 @@ import org.springframework.core.env.EnvironmentCapable;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+
+import java.lang.annotation.Annotation;
+import java.util.function.Supplier;
 
 /**
  * Convenient adapter for programmatic registration of bean classes.
@@ -133,6 +133,7 @@ public class AnnotatedBeanDefinitionReader {
 	 * e.g. {@link Configuration @Configuration} classes
 	 */
 	public void register(Class<?>... componentClasses) {
+		// 遍历AnnotationConfigApplicationContext初始化传进来的所有配置类（但是一般情况下只传一个值）
 		for (Class<?> componentClass : componentClasses) {
 			registerBean(componentClass);
 		}
@@ -246,21 +247,69 @@ public class AnnotatedBeanDefinitionReader {
 	 * {@link BeanDefinition}, e.g. setting a lazy-init or primary flag
 	 * @since 5.0
 	 */
+	/**
+	 * 真正执行指定的配置类注册到容器的代码逻辑
+	 *     1，java对象转AnnotatedGenericBeanDefinition对象
+	 *     2，判断传进来的配置类是否需要注册
+	 *     3，通用BeanDefinition通过setter对象属性注入
+	 *         InstanceSupplier
+	 *         Scope
+	 *     4，解析通用注解填充到AnnotatedGenericBeanDefinition中
+	 *     5，调用registerBeanDefinition
+	 *         beanDefinition注册
+	 *             注册beanDefinition到容器beanDefinitionMap
+	 *             添加beanName到beanNames中
+	 *         别名注册
+	 *             如果设置了别名
+	 *                 进行别名注册
+	 *
+	 */
 	private <T> void doRegisterBean(Class<T> beanClass, @Nullable String name,
 			@Nullable Class<? extends Annotation>[] qualifiers, @Nullable Supplier<T> supplier,
 			@Nullable BeanDefinitionCustomizer[] customizers) {
 
+		/**
+		 * 传参进来是配置类 仅仅是普通的java类而已
+		 * 将java对象封装成BeanDefinition对象 基本属于一个空的BeanDefinition 其他的属性都还没设置
+		 */
 		AnnotatedGenericBeanDefinition abd = new AnnotatedGenericBeanDefinition(beanClass);
+		/**
+		 * 判断是否需要跳过不需要注册，判断条件为：
+		 *     第一个if分支：
+		 *         abd的metaData为空或者没有被Conditional注解标注，也就是!metadata.isAnnotated(Conditional.class.getName())
+		 *             返回false
+		 *
+		 * 因为传进来的配置类没有Conditional这个注解，if条件为false，代码继续执行
+		 */
 		if (this.conditionEvaluator.shouldSkip(abd.getMetadata())) {
 			return;
 		}
 
+		// 开始给BeanDefinition注入属性
 		abd.setInstanceSupplier(supplier);
+		// 解析bean的作用域 如果没有设置的话 默认值是单例singleton
 		ScopeMetadata scopeMetadata = this.scopeMetadataResolver.resolveScopeMetadata(abd);
 		abd.setScope(scopeMetadata.getScopeName());
+		/**
+		 * 获得beanNae
+		 *     如果入参beanName不为null，直接赋值入参
+		 *     如果吐惨beanName为null，根据传进来的beanClass解析出beanName
+		 */
 		String beanName = (name != null ? name : this.beanNameGenerator.generateBeanName(abd, this.registry));
 
+		/**
+		 * 解析通用注解填充到AnnotatedGenericBeanDefinition中
+		 * 解析的注解为：
+		 *     Lazy
+		 *     Primary
+		 *     DependsOn
+		 *     Role
+		 *     Description
+		 */
 		AnnotationConfigUtils.processCommonDefinitionAnnotations(abd);
+		/**
+		 * 在AnnotationConfigApplicationContext这个new的时候触发register函数跟踪到这儿的时候qualifiers入参为null 那么这个分支不执行
+		 */
 		if (qualifiers != null) {
 			for (Class<? extends Annotation> qualifier : qualifiers) {
 				if (Primary.class == qualifier) {
@@ -274,6 +323,9 @@ public class AnnotatedBeanDefinitionReader {
 				}
 			}
 		}
+		/**
+		 * 在AnnotationConfigApplicationContext这个new的时候触发register函数跟踪到这儿的时候customizers入参为null 那么这个分支不执行
+		 */
 		if (customizers != null) {
 			for (BeanDefinitionCustomizer customizer : customizers) {
 				customizer.customize(abd);

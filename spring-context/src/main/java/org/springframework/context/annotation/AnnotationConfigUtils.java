@@ -162,7 +162,7 @@ public abstract class AnnotationConfigUtils {
 		Set<BeanDefinitionHolder> beanDefs = new LinkedHashSet<>(8);
 
 		/**
-		 * 判断容器中是否存在内置的bean 不存在的话就注册到registry中beanFactory中beanDefinitionMap中 也添加到beanDefs这个LinkedHashSet中
+		 * 判断容器中是否存在内置的bean 不存在的话就注册到registry（registry是接口，实现类是DefaultListableBeanFactory，也就是说这就是ioc容器）中beanFactory中beanDefinitionMap中 也添加到beanDefs这个LinkedHashSet中
 		 * 一共5个内置bean
 		 *     internalConfigurationClassPostProcessor，这个极其重要
 		 *         ConfigurationClassPostProcessor--->实现了--->BeanDefinitionRegistryPostProcessor接口--->扩展了--->BeanFactoryPostProcessor接口
@@ -246,6 +246,17 @@ public abstract class AnnotationConfigUtils {
 		processCommonDefinitionAnnotations(abd, abd.getMetadata());
 	}
 
+	/**
+	 * 解析通用注解填充到AnnotatedGenericBeanDefinition中
+	 * 解析的注解为：
+	 *     Lazy
+	 *     Primary
+	 *     DependsOn
+	 *     Role
+	 *     Description
+	 * @param abd
+	 * @param metadata
+	 */
 	static void processCommonDefinitionAnnotations(AnnotatedBeanDefinition abd, AnnotatedTypeMetadata metadata) {
 		AnnotationAttributes lazy = attributesFor(metadata, Lazy.class);
 		if (lazy != null) {

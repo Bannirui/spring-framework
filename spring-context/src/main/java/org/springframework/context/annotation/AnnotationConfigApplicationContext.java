@@ -71,7 +71,11 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 */
 	public AnnotationConfigApplicationContext() {
 		StartupStep createAnnotatedBeanDefReader = this.getApplicationStartup().start("spring.context.annotated-bean-reader.create");
-		// 初始化一个Bean读取器 调用AnnotatedBeanDefinitionReader的构造函数 入参是AnnotationConfigApplicationContext的实例
+		/**
+		 * 初始化一个Bean读取器 调用AnnotatedBeanDefinitionReader的构造函数 入参是AnnotationConfigApplicationContext的实例
+		 * new一个AnnotatedBeanDefinitionReader结束后 容器中注册的仅仅是5个内置bean 此时的beanDefinition属性很多都还没设置
+		 *     现在的状态可以理解为仅仅是把原料放入了工厂，而工厂还没有真正的去生产
+		 */
 		this.reader = new AnnotatedBeanDefinitionReader(this);
 		createAnnotatedBeanDefReader.end();
 		// 初始化一个扫描器
@@ -106,8 +110,13 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 		 *     1，隐式调用父类GenericApplicationContext的无参构造函数
 		 *         new一个DefaultListableBeanFactory赋值给beanFactory
 		 *     2，初始化本类属性值
-		 *         Bean读取器
-		 *         扫描器
+		 *         Bean读取器AnnotatedBeanDefinitionReader
+		 *         扫描器ClassPathBeanDefinitionScanner
+		 *
+		 * 最终这个构造函数完成的工作有3个：
+		 *     new了一个容器DefaultListableBeanFactory
+		 *     BeanDefinitionMap中注册了5个内置BeanDefinition
+		 *     实例化scanner（但是scanner用处不大，仅仅是在我们在外部调用.scan等方法时才有用，常规方式不会用到scanner对象）
 		 */
 		this();
 		register(componentClasses);

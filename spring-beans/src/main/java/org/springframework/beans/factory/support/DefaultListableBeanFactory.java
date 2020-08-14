@@ -940,9 +940,19 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition)
 			throws BeanDefinitionStoreException {
 
+		/**
+		 * 执行注册到beanFactoryMap的逻辑 前置各种校验判断
+		 * 备注一下init表示new AnnotationConfigApplicationContext时候的流程
+		 */
 		Assert.hasText(beanName, "Bean name must not be empty");
 		Assert.notNull(beanDefinition, "BeanDefinition must not be null");
 
+		/**
+		 * 判断类型 因为BeanDefinition是一个接口，AbstractBeanDefinition实现了该接口 也就是说AbstractBeanDefinition是BeanDefinition具体的实现类
+		 * init：
+		 *     走这个if分支
+		 *
+		 */
 		if (beanDefinition instanceof AbstractBeanDefinition) {
 			try {
 				((AbstractBeanDefinition) beanDefinition).validate();
@@ -953,6 +963,13 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 		}
 
+		/**
+		 * 判断这个BeanDefinition的beanName是否已经注册过
+		 * init：
+		 *     初始化的时候，代码走到这儿，整个的容器中beanFactoryMap中只有实例化AnnotatedBeanDefinitionReader时候注册的5个内置beanDefinition
+		 *     所有只要beanName跟那5个的name不重名就不会走这个if分支
+		 *     不走这个分支
+		 */
 		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
 		if (existingDefinition != null) {
 			if (!isAllowBeanDefinitionOverriding()) {
@@ -982,7 +999,15 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 			this.beanDefinitionMap.put(beanName, beanDefinition);
 		}
+		/**
+		 * init：
+		 *     进这个分支
+		 */
 		else {
+			/**
+			 * init：
+			 *     hasBeanCreationStarted()返回false，不进这个if分支
+			 */
 			if (hasBeanCreationStarted()) {
 				// Cannot modify startup-time collection elements anymore (for stable iteration)
 				synchronized (this.beanDefinitionMap) {
@@ -997,8 +1022,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			else {
 				// Still in startup registration phase
 				// beanDefinitionMap：Map<String, BeanDefinition>中添加bean
+				// 完成注册
 				this.beanDefinitionMap.put(beanName, beanDefinition);
 				// beanDefinitionNames：List<String>中添加beanName
+				// 存储beanName
 				this.beanDefinitionNames.add(beanName);
 				removeManualSingletonName(beanName);
 			}
