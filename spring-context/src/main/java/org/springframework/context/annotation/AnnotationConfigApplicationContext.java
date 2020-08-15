@@ -119,7 +119,22 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 		 *     实例化scanner（但是scanner用处不大，仅仅是在我们在外部调用.scan等方法时才有用，常规方式不会用到scanner对象）
 		 */
 		this();
+		/**
+		 * 这个函数就做了一件事情：
+		 *     传进来的配置类（一个或多个）封装成BeanDefinition，setter设置属性，解析通用注解填充，注册到容器，如果有别名就注册别名
+		 */
 		register(componentClasses);
+		/**
+		 * 到此为止，前面两个步骤将内置的BeanDefinition和传进来的配置类都注册进了BeanDefinitionMap，但是现在所有的BeanDefinition都还处于半成品状态 还没加工好
+		 *
+		 * refresh步骤里面还会继续注册BeanDefinition到容器中，现在debug下来至少有以下几种不同的情况：
+		 *     1，在配置类下的@Bean注解函数中使用new java对象方式
+		 *         只会将这个函数注册到容器中 被new的java对象不会注册
+		 *     2，在配置类中使用@Autowired自动注入被@Component注解的类
+		 *     3，在配置类中不实用，仅仅通过@Component注解注册java类到容器
+		 *
+		 *
+		 */
 		refresh();
 	}
 

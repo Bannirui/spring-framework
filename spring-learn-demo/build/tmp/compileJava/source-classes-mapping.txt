@@ -4,3 +4,5 @@ learn/demo/app/AppConfig.java
  learn.demo.app.AppConfig
 learn/demo/DemoApplication.java
  learn.demo.DemoApplication
+learn/demo/service/impl/CustomerPostProcessor.java
+ learn.demo.service.impl.CustomerPostProcessor

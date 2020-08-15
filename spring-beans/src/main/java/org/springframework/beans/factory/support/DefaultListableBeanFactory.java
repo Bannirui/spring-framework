@@ -497,6 +497,14 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	@Override
 	public String[] getBeanNamesForType(@Nullable Class<?> type, boolean includeNonSingletons, boolean allowEagerInit) {
+		/**
+		 * 初始化：
+		 *     进这个分支
+		 *         执行到这的时候容器中的bean就只有6个
+		 *             5个是内置BeanDefinition
+		 *             1个是穿进去的配置类
+		 *         从这6额bean里面找到BeanDefinitionRegistryPostProcessor接口类型的bean名字，只能找到一个internalConfigurationAnnotationProcessor
+		 */
 		if (!isConfigurationFrozen() || type == null || !allowEagerInit) {
 			return doGetBeanNamesForType(ResolvableType.forRawClass(type), includeNonSingletons, allowEagerInit);
 		}
