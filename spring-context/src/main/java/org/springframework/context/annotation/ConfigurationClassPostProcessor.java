@@ -124,6 +124,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 	@Nullable
 	private ConfigurationClassBeanDefinitionReader reader;
 
+	// todo 回头搞清楚这个变量的作用
 	private boolean localBeanNameGeneratorSet = false;
 
 	/* Using short class names as default bean names by default. */
@@ -235,7 +236,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 					"postProcessBeanFactory already called on this post-processor against " + registry);
 		}
 		this.registriesPostProcessed.add(registryId);
-		// 注册BeanDefinition 很重要这个方法
+		// 很重要这个方法
 		processConfigBeanDefinitions(registry);
 	}
 
@@ -266,27 +267,81 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 	 * {@link Configuration} classes.
 	 */
 	public void processConfigBeanDefinitions(BeanDefinitionRegistry registry) {
+		// 这个列表容器configCandidates用来存储配置类
 		List<BeanDefinitionHolder> configCandidates = new ArrayList<>();
+		/**
+		 * 这个函数返回的结果就是beanDefinitionNames
+		 * 就是那个放了beanName的列表啊
+		 *
+		 * 步骤1：
+		 *     获取所有的BeanName，放入到candidateNames数组中
+		 */
 		String[] candidateNames = registry.getBeanDefinitionNames();
 
+		/**
+		 * 遍历beanName列表 初始化后这个列表此时应该只有两部分元素
+		 *     1，第一部分是，this()函数调用annotatedBeanDefinitionReader实例化时注册的5个内置bean
+		 *     2，第二部分是，register函数注册new AnnotationApplicationContext时候传进来的配置类
+		 *
+		 * 比如我debug的时候new AnnotationApplicationContext只传了一个配置类进来 那现在这个candidateNames列表里面只有6个beanName
+		 */
 		for (String beanName : candidateNames) {
+			/**
+			 * 根据bean的名字获取bean：
+			 *     拿着beanName作key到beanDefinitionMap里面get一下
+			 *
+			 * 步骤2：
+			 *     遍历candidateNames，根据beanName获取BeanDefinition，判断这个BeanDefinition是否已经被处理过
+			 */
 			BeanDefinition beanDef = registry.getBeanDefinition(beanName);
+			// todo 没有走这个if分支 以后再回来看这个判断的是什么
 			if (beanDef.getAttribute(ConfigurationClassUtils.CONFIGURATION_CLASS_ATTRIBUTE) != null) {
 				if (logger.isDebugEnabled()) {
 					logger.debug("Bean definition has already been processed as a configuration class: " + beanDef);
 				}
 			}
+			/**
+			 * 判断这个BeanDefinition是不是配置类
+			 * 如果是配置类：
+			 *     加到存储配置类的这个列表容器中去
+			 *
+			 * 代码走到这儿的时候 configCandidates这个列表中应该只有传进来的AppConfig这个配置类
+			 *
+			 *
+			 * 步骤3：
+			 *     判断是否是配置类
+			 *         如果是的话
+			 *             加入到configCandidates数组
+			 *     在判断的时候，还会标记配置类属于Full配置类还是Lite配置类
+			 *
+			 *     这儿还牵扯到很多的点：
+			 *         Full配置类：注册配置类的时候，加了@Configuration
+			 *         Lite配置类：注册配置类的时候，加了@Component、@ComponentScan、@Import、@ImportResource
+			 *         如果注册了Lite类，用getBean获取这个配置类时，还是那个配置类
+			 *         如果注册了Full类，用getBean获取这个配置类时，已经不会原来那个配置类了，而是被cglib代理的类
+			 */
 			else if (ConfigurationClassUtils.checkConfigurationClassCandidate(beanDef, this.metadataReaderFactory)) {
 				configCandidates.add(new BeanDefinitionHolder(beanDef, beanName));
 			}
 		}
 
 		// Return immediately if no @Configuration classes were found
+		/**
+		 * 步骤4：
+		 *     如果没有配置类则直接返回
+		 */
 		if (configCandidates.isEmpty()) {
 			return;
 		}
 
 		// Sort by previously determined @Order value, if applicable
+		/**
+		 * todo 功能就是排序 以后再回来研究语法
+		 * 一段lambda表达式对列表元素进行排序
+		 *
+		 * 步骤5：
+		 *     处理排序
+		 */
 		configCandidates.sort((bd1, bd2) -> {
 			int i1 = ConfigurationClassUtils.getOrder(bd1.getBeanDefinition());
 			int i2 = ConfigurationClassUtils.getOrder(bd2.getBeanDefinition());
@@ -294,12 +349,28 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 		});
 
 		// Detect any custom bean name generation strategy supplied through the enclosing application context
+		/**
+		 * 这个registry就是DefaultListableBeanFactory，而DefaultListableBeanFactory是实现了SingletonBeanRegistry这个接口的 是这个接口的子类
+		 * 所以if条件分支会进去
+		 */
 		SingletonBeanRegistry sbr = null;
 		if (registry instanceof SingletonBeanRegistry) {
+			// DefaultListableBeanFactory向上转型赋值给sbr
 			sbr = (SingletonBeanRegistry) registry;
+			/**
+			 * localBeanNameGeneratorSet是一个属性值 默认是false
+			 * 当这个值是false的时候进if分支
+			 *
+			 * 第一次执行invokeBeanDefinitionRegistryPostProcessors这个的时候，这个值肯定是默认值false 还没有改true这个操作
+			 */
 			if (!this.localBeanNameGeneratorSet) {
+				/**
+				 * todo
+				 * spring中可以修改默认的bean命名方式 这里就是看看用户有没有自定义bean命名方式
+				 */
 				BeanNameGenerator generator = (BeanNameGenerator) sbr.getSingleton(
 						AnnotationConfigUtils.CONFIGURATION_BEAN_NAME_GENERATOR);
+				// 这个if分支一般不会进去
 				if (generator != null) {
 					this.componentScanBeanNameGenerator = generator;
 					this.importBeanNameGenerator = generator;
@@ -307,6 +378,7 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 			}
 		}
 
+		// 这个分支不进
 		if (this.environment == null) {
 			this.environment = new StandardEnvironment();
 		}
@@ -316,12 +388,22 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 				this.metadataReaderFactory, this.problemReporter, this.environment,
 				this.resourceLoader, this.componentScanBeanNameGenerator, registry);
 
+		/**
+		 * 维护两个set集合：
+		 *     candidates，存放待解析的配置类
+		 *         把扫描出来的配置类容器configCandidates（就一个传进来的AppConfig）里面的元素放进去
+		 *     alreadyParsed，存放被解析过的配置类
+		 */
 		Set<BeanDefinitionHolder> candidates = new LinkedHashSet<>(configCandidates);
 		Set<ConfigurationClass> alreadyParsed = new HashSet<>(configCandidates.size());
 		do {
 			StartupStep processConfig = this.applicationStartup.start("spring.context.config-classes.parse");
 			/**
-			 * 注解了类@Component的类应该是在这注册到容器中的
+			 * todo 解析配置类 配置类或者是普通bean 核心
+			 * 步骤6：
+			 *     解析配置类
+			 *         可能是Full配置类
+			 *         可能是Lite配置类
 			 */
 			parser.parse(candidates);
 			parser.validate();
@@ -336,19 +418,34 @@ public class ConfigurationClassPostProcessor implements BeanDefinitionRegistryPo
 						this.importBeanNameGenerator, parser.getImportRegistry());
 			}
 			/**
-			 * 在配置类中的@Bean 是在这注册到容器的
+			 * todo
+			 * 到这儿才把Import的类，@Bean、@ImportResource转换成BeanDefinition
 			 *
-			 * 其他配置了类@Component注解的类在这行代码执行之前就已经注册进去了
+			 * 步骤7：
+			 *     步骤6只是注册了部分的@Bean，比如@Import、@Bean等还没有被注册，这里统一对这些进行注册
 			 */
 			this.reader.loadBeanDefinitions(configClasses);
+			// 把configClasses加到已经解析过的集合中
 			alreadyParsed.addAll(configClasses);
 			processConfig.tag("classCount", () -> String.valueOf(configClasses.size())).end();
 
 			candidates.clear();
+			/**
+			 * 条件判断：获取注册容器里面BeanDefinition的数量，如果大于candidateNames列表里面beanName的数量，条件成立，进if分支
+			 *     都是获取容器中BeanDefinition名字的列表
+			 *         第一次获取，存在列表candidateNames
+			 *         第二次获取，存在列表newCandidateNames
+			 * 如果条件成立也就意味着经过上面这一段代码，有新的BeanDefinition被扫出来，注册进来了
+			 * 也就意味着第一轮的invokeBeanFactoryPostProcessors(beanFactory)方法会把@Bean已经类@Component的类都注册到容器
+			 */
 			if (registry.getBeanDefinitionCount() > candidateNames.length) {
+				// 获取现在容器里面的BeanName列表，第二次获取的
 				String[] newCandidateNames = registry.getBeanDefinitionNames();
+				// 之前容器里面BeanName列表，第一次获取的，专程set集合
 				Set<String> oldCandidateNames = new HashSet<>(Arrays.asList(candidateNames));
+				// 一个空集合，存放已经解析过的配置类
 				Set<String> alreadyParsedClasses = new HashSet<>();
+				// 遍历alreadyParsed 把类名加到alreadyParsedClasses
 				for (ConfigurationClass configurationClass : alreadyParsed) {
 					alreadyParsedClasses.add(configurationClass.getMetadata().getClassName());
 				}
