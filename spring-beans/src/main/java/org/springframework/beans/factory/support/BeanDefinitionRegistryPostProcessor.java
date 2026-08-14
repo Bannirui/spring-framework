@@ -31,6 +31,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
  * @since 3.0.1
  * @see org.springframework.context.annotation.ConfigurationClassPostProcessor
  */
+// 从注释就明白了 BeanFactoryPostProcessor的能力是改造现有的BeanDefinition 而BeanDefinitionRegistryPostProcessor是BeanFactoryPostProcessor的加强版 还有直接创建BeanDefinition的能力
 public interface BeanDefinitionRegistryPostProcessor extends BeanFactoryPostProcessor {
 
 	/**
@@ -41,6 +42,7 @@ public interface BeanDefinitionRegistryPostProcessor extends BeanFactoryPostProc
 	 * @param registry the bean definition registry used by the application context
 	 * @throws org.springframework.beans.BeansException in case of errors
 	 */
+	// 不仅有修改BeanDefinition的能力 还有创建新的BeanDefinition的能力
 	void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException;
 
 	/**
@@ -49,6 +51,7 @@ public interface BeanDefinitionRegistryPostProcessor extends BeanFactoryPostProc
 	 * typically only provide a {@link #postProcessBeanDefinitionRegistry} method.
 	 * @since 6.1
 	 */
+	// 修改BeanDefinition的能力
 	@Override
 	default void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 	}

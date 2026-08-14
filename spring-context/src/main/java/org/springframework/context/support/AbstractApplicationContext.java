@@ -200,6 +200,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	private @Nullable ConfigurableEnvironment environment;
 
 	/** BeanFactoryPostProcessors to apply on refresh. */
+	// AnnotationConfigApplicationContext自己维护的beanFactoryPostProcessor
 	private final List<BeanFactoryPostProcessor> beanFactoryPostProcessors = new ArrayList<>();
 
 	/** System time in milliseconds when this context started. */
@@ -549,6 +550,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Return the list of BeanFactoryPostProcessors that will get applied
 	 * to the internal BeanFactory.
 	 */
+	/**
+	 * AnnotationConfigApplicationContext自己维护的beanFactoryPostProcessor
+	 */
 	public List<BeanFactoryPostProcessor> getBeanFactoryPostProcessors() {
 		return this.beanFactoryPostProcessors;
 	}
@@ -605,10 +609,16 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
 				// Invoke factory processors registered as beans in the context.
 				/**
-				 * 5 让BeanFactoryPostProcessor修改BeanDefinition
+	 			 * 5 让BeanFactoryPostProcessor修改BeanDefinition
 				 * SpringBoot启动的时候只往BeanFactory里面缓存了一个启动类的BeanDefinition 在这个地方就要开始围绕这个启动类的BeanDefinition找到枝枝蔓蔓
-				 * BeanFactoryPostProcessor作用时机是在Bean实例化之前 操作对象是BeanDefinition
-				 * 真正开始大规模解析BeanDefinition
+	 			 * BeanFactoryPostProcessor作用时机是在Bean实例化之前 操作对象是BeanDefinition
+	 			 * 真正开始大规模解析BeanDefinition
+	 			 *
+	 			 * 此时看看BeanFactory的情况
+	 	         *   - 上面context已经给BeanFactory赋能了 有了一些基础设施
+				 *   - SpringBoot刚启动的时候已经把启动类BeanDefinition放到了BeanFactory的beanDefinitionMap里面
+	 			 *   - 真正的核心是AnnotationConfigApplicationContext构造了AnnotatedBeanDefinitionReader 它往BeanFactory的beanDefinitionMap放了一些BeanDefinition 最重要的是ConfigurationClassPostProcessor 它会从启动类的注解找到所有的BeanDefinition
+	 			 * 最后整个BeanFactory会有所有的BeanDefinition 再统一回调BeanFactoryPostProcessor对BeanDefinition进行修改
 				 */
 				invokeBeanFactoryPostProcessors(beanFactory);
 				// Register bean processors that intercept bean creation.
@@ -833,6 +843,18 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Instantiate and invoke all registered BeanFactoryPostProcessor beans,
 	 * respecting explicit order if given.
 	 * <p>Must be called before singleton instantiation.
+	 */
+	/**
+	 * 让BeanFactoryPostProcessor修改BeanDefinition
+	 * SpringBoot启动的时候只往BeanFactory里面缓存了一个启动类的BeanDefinition 在这个地方就要开始围绕这个启动类的BeanDefinition找到枝枝蔓蔓
+	 * BeanFactoryPostProcessor作用时机是在Bean实例化之前 操作对象是BeanDefinition
+	 * 真正开始大规模解析BeanDefinition
+	 *
+	 * 此时看看BeanFactory的情况
+	 *   - 上面context已经给BeanFactory赋能了 有了一些基础设施
+	 *   - SpringBoot刚启动的时候已经把启动类BeanDefinition放到了BeanFactory的beanDefinitionMap里面
+	 *   - 真正的核心是AnnotationConfigApplicationContext构造了AnnotatedBeanDefinitionReader 它往BeanFactory的beanDefinitionMap放了一些BeanDefinition 最重要的是ConfigurationClassPostProcessor 它会从启动类的注解找到所有的BeanDefinition
+	 * 最后整个BeanFactory会有所有的BeanDefinition 再统一回调BeanFactoryPostProcessor对BeanDefinition进行修改
 	 */
 	protected void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
 		PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(beanFactory, getBeanFactoryPostProcessors());

@@ -140,6 +140,11 @@ public abstract class AnnotationConfigUtils {
 	 * @return a Set of BeanDefinitionHolders, containing all bean definitions
 	 * that have actually been registered by this call
 	 */
+	/**
+	 * 构造AnnotationConfigApplicationContext的时候会构造AnnotatedBeanDefinitionReader
+	 * 它会把ConfigurationClassPostProcessor提前放到BeanFactory的beanDefinitionMap里面
+	 * 在refresh执行到invokeBeanFactoryPostProcessors的时候会从beanDefinitionMap中找BeanDefinitionRegistryPostProcessor的BeanDefinition 会把ConfigurationClassPostProcessor找到
+	 */
 	public static Set<BeanDefinitionHolder> registerAnnotationConfigProcessors(
 			BeanDefinitionRegistry registry, @Nullable Object source) {
 
@@ -158,6 +163,7 @@ public abstract class AnnotationConfigUtils {
 		if (!registry.containsBeanDefinition(CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME)) {
 			RootBeanDefinition def = new RootBeanDefinition(ConfigurationClassPostProcessor.class);
 			def.setSource(source);
+			// 会把ConfigurationClassPostProcessor这个BeanDefinition缓存到BeanFactory的beanDefinitionMap 在refresh的invokeBeanFactoryPostProcessors会掏出来创建成Bean 然后从启动类注解开始找到所有的BeanDefinition
 			beanDefs.add(registerPostProcessor(registry, def, CONFIGURATION_ANNOTATION_PROCESSOR_BEAN_NAME));
 		}
 

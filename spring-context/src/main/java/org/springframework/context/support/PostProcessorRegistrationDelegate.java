@@ -65,6 +65,15 @@ final class PostProcessorRegistrationDelegate {
 	}
 
 
+	/**
+	 * 构造AnnotationConfigApplicationContext会把它reader成员也构造出来 AnnotatedBeanDefinitionReader构造的时候会往BeanFactory的beanDefinitionMap缓存一个ConfigurationClassPostProcessor
+	 * 这个实现了BeanDefinitionRegistryPostProcessor 会在这个方法里面被发现找出来实例化成Bean 根据启动类上的@SpringBoot注解展开一些列BeanDefinition的缓存
+	 *
+	 * 整个逻辑分为两块
+	 *   - 1 先创建BeanDefinition 用ConfigurationClassPostProcessor从启动类把所有的BeanDefinition放到BeanFactory
+	 *   - 2 再修改BeanDefinition
+	 * @param beanFactoryPostProcessors AnnotationConfigApplicationContext自己维护的beanFactoryPostProcessor
+	 */
 	public static void invokeBeanFactoryPostProcessors(
 			ConfigurableListableBeanFactory beanFactory, List<BeanFactoryPostProcessor> beanFactoryPostProcessors) {
 
@@ -85,9 +94,13 @@ final class PostProcessorRegistrationDelegate {
 		Set<String> processedBeans = new HashSet<>();
 
 		if (beanFactory instanceof BeanDefinitionRegistry registry) {
+			/**
+			 * BeanDefinitionRegistryPostProcessor是BeanFactoryPostProcessor的派生 也就是说它是更强大的BeanFactoryPostProcessor
+			 * 它不仅可以修改BeanDefinition 还可以注册新的BeanDefinition
+			 */
 			List<BeanFactoryPostProcessor> regularPostProcessors = new ArrayList<>();
 			List<BeanDefinitionRegistryPostProcessor> registryProcessors = new ArrayList<>();
-
+			// 先看看AnnotationConfigApplicationContext自己维护的beanFactor
 			for (BeanFactoryPostProcessor postProcessor : beanFactoryPostProcessors) {
 				if (postProcessor instanceof BeanDefinitionRegistryPostProcessor registryProcessor) {
 					registryProcessor.postProcessBeanDefinitionRegistry(registry);
@@ -105,20 +118,35 @@ final class PostProcessorRegistrationDelegate {
 			List<BeanDefinitionRegistryPostProcessor> currentRegistryProcessors = new ArrayList<>();
 
 			// First, invoke the BeanDefinitionRegistryPostProcessors that implement PriorityOrdered.
+			/**
+	 		 * 从BeanFactory的beanDefinitionMap里面找看看有没有BeanDefinitionRegistryPostProcessor
+			 * 这个时候会把ConfigurationClassPostProcessor的BeanDefinition找出来 它是实现了PriorityOrdered的
+			 *
+			 * 下面的逻辑可以看到
+			 *   - 1 优先级是按照PriorityOrdered>Ordered
+			 *   - 2 为什么在处理Ordered优先级的时候又要从BeanFactory拿一次beanDefinitionMap 因为实现了BeanDefinitionRegistryPostProcessor的postProcessor能力更强 它有创建BeanDefinition的能力 也就是说处理完PriorityOrdered之后可能BeanFactory已经额外缓存了一些新的BeanDefinition
+			 */
 			String[] postProcessorNames =
 					beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.class, true, false);
 			for (String ppName : postProcessorNames) {
 				if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
+					// 用这些BeanDefinitionRegistryPostProcessor的BeanDefinition创造Bean
 					currentRegistryProcessors.add(beanFactory.getBean(ppName, BeanDefinitionRegistryPostProcessor.class));
 					processedBeans.add(ppName);
 				}
 			}
 			sortPostProcessors(currentRegistryProcessors, beanFactory);
 			registryProcessors.addAll(currentRegistryProcessors);
+			/**
+			 * BeanDefinitionRegistryPostProcessor这种postProcessor是有创造BeanDefinition能力的
+			 * ConfigurationClassPostProcessor的postProcessBeanDefinitionRegistry会被回调到
+			 * 因为这个方法的执行 BeanFactory可能因此多了一些新的BeanDefinition
+			 */
 			invokeBeanDefinitionRegistryPostProcessors(currentRegistryProcessors, registry, beanFactory.getApplicationStartup());
 			currentRegistryProcessors.clear();
 
 			// Next, invoke the BeanDefinitionRegistryPostProcessors that implement Ordered.
+			// 这就是为什么要重新从BeanFactory的beanDefinitionMap检索一次 因为经过上面 现在的beanDefinitionMap可能已经多了一些BeanDefinition
 			postProcessorNames = beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.class, true, false);
 			for (String ppName : postProcessorNames) {
 				if (!processedBeans.contains(ppName) && beanFactory.isTypeMatch(ppName, Ordered.class)) {
@@ -132,6 +160,7 @@ final class PostProcessorRegistrationDelegate {
 			currentRegistryProcessors.clear();
 
 			// Finally, invoke all other BeanDefinitionRegistryPostProcessors until no further ones appear.
+			// 上面已经处理了PriorityOrdered和Ordered的优先级 剩下来BeanFactory的beanDefinitionMap里面可能还有一些BeanDefinitionRegistryPostProcessor 如果有的话就要继续掏出来创建成Bean然后回调它的postProcessBeanDefinitionRegistry 当然可能会因为这个方法的执行产生了新的BeanDefinition 那就循环往复下去
 			boolean reiterate = true;
 			while (reiterate) {
 				reiterate = false;
@@ -346,6 +375,7 @@ final class PostProcessorRegistrationDelegate {
 		for (BeanDefinitionRegistryPostProcessor postProcessor : postProcessors) {
 			StartupStep postProcessBeanDefRegistry = applicationStartup.start("spring.context.beandef-registry.post-process")
 					.tag("postProcessor", postProcessor::toString);
+			// 回调到ConfigurationClassPostProcessor的方法
 			postProcessor.postProcessBeanDefinitionRegistry(registry);
 			postProcessBeanDefRegistry.end();
 		}
