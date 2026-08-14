@@ -624,9 +624,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				// Register bean processors that intercept bean creation.
 				/**
 				 * 6 BeanPostProcessor作用时机是Bean实例化过程中 操作对象是Bean对象 在实例创建过程中进行干预
-				 * 为什么要先注册BeanPostProcessor呢 因为后面会真正创建Bean
+				 * 为什么要先注册BeanPostProcessor呢 因为后面会真正创建Bean 所以一定要在创建业务Bean的前面提前把BeanPostProcessor实例缓存好 到时候拿起来就用
 				 * @Autowired AOP等基础设施准备
-				 * 准备Bean创建过程中的拦截器 把所有BeanPostProcessor找出来 并注册到BeanFactory里面 为后面创建Bean做准备
+				 * 准备Bean创建过程中的拦截器
+				 *   - 从BeanFactory的beanDefinitionMap中把BeanPostProcessor类型的BeanDefinition找出来
+				 *   - 把这些BeanDefinition创建成Bean
+				 *   - 把这些Bean缓存到BeanFactory的beanPostProcessors里面 为后面创建Bean做准备
 				 */
 				registerBeanPostProcessors(beanFactory);
 				beanPostProcess.end();

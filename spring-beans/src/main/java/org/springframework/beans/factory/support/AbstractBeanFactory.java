@@ -153,6 +153,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	private final List<StringValueResolver> embeddedValueResolvers = new CopyOnWriteArrayList<>();
 
 	/** BeanPostProcessors to apply. */
+	// 在AnnotationConfigApplicationContext的refresh中执行registerBeanPostProcessors时会从BeanFactory的beanDefinitionMap中找到类型是BeanPostProcessor的BeanDefinition 然后创建成Bean放到这个缓存里面 等着创建Bean的时候用这些BeanPostProcessor干预Bean的创建
 	private final List<BeanPostProcessor> beanPostProcessors = new BeanPostProcessorCacheAwareList();
 
 	/** Cache of pre-filtered post-processors. */

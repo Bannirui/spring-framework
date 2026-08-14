@@ -252,7 +252,7 @@ final class PostProcessorRegistrationDelegate {
 		// list of all declined PRs involving changes to PostProcessorRegistrationDelegate
 		// to ensure that your proposal does not result in a breaking change:
 		// https://github.com/spring-projects/spring-framework/issues?q=PostProcessorRegistrationDelegate+is%3Aclosed+label%3A%22status%3A+declined%22
-
+		// 从BeanFactory的beanDefinitionMap中找到所有BeanPostProcessor的BeanDefinition
 		String[] postProcessorNames = beanFactory.getBeanNamesForType(BeanPostProcessor.class, true, false);
 
 		// Register BeanPostProcessorChecker that logs a warn message when
@@ -270,6 +270,7 @@ final class PostProcessorRegistrationDelegate {
 		List<String> nonOrderedPostProcessorNames = new ArrayList<>();
 		for (String ppName : postProcessorNames) {
 			if (beanFactory.isTypeMatch(ppName, PriorityOrdered.class)) {
+				// 创建BeanPostProcessor的Bean
 				BeanPostProcessor pp = beanFactory.getBean(ppName, BeanPostProcessor.class);
 				priorityOrderedPostProcessors.add(pp);
 				if (pp instanceof MergedBeanDefinitionPostProcessor) {
@@ -286,6 +287,7 @@ final class PostProcessorRegistrationDelegate {
 
 		// First, register the BeanPostProcessors that implement PriorityOrdered.
 		sortPostProcessors(priorityOrderedPostProcessors, beanFactory);
+		// 把创建好的BeanPostProcessor的Bean对象缓存到BeanFactory的beanPostProcessors里面 等着后面创建业务Bean的时候对他们的创建过程进行干预
 		registerBeanPostProcessors(beanFactory, priorityOrderedPostProcessors);
 
 		// Next, register the BeanPostProcessors that implement Ordered.
@@ -403,6 +405,7 @@ final class PostProcessorRegistrationDelegate {
 
 		if (beanFactory instanceof AbstractBeanFactory abstractBeanFactory) {
 			// Bulk addition is more efficient against our CopyOnWriteArrayList there
+			// 把BeanPostProcessor的Bean缓存到BeanFactory的beanPostProcessor里面
 			abstractBeanFactory.addBeanPostProcessors(postProcessors);
 		}
 		else {
