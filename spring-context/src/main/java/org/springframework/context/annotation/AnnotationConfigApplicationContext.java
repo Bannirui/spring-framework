@@ -68,6 +68,11 @@ public class AnnotationConfigApplicationContext extends GenericApplicationContex
 	 */
 	public AnnotationConfigApplicationContext() {
 		// 会隐式调用到父类GenericApplicationContext 构造一个beanFactory的DefaultListableFactory对象出来
+		/**
+		 * 为什么要构造下面这两个玩意 本质都是为了找到BeanDefinition 然后把BeanDefinition缓存到BeanFactory里面
+		 * 将来给过来的信息可能是一个打了注解的类 也有可能是下包路径
+		 * 下面两个各司其职
+		 */
 		this.reader = new AnnotatedBeanDefinitionReader(this);
 		this.scanner = new ClassPathBeanDefinitionScanner(this);
 	}

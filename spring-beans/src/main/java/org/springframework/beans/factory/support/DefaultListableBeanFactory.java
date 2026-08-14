@@ -1273,6 +1273,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			else {
 				logBeanDefinitionOverriding(beanName, beanDefinition, existingDefinition);
 			}
+			// SpringBoot启动类被封装成BeanDefinition放到BeanFactory的这个缓存里面
 			this.beanDefinitionMap.put(beanName, beanDefinition);
 		}
 		else {

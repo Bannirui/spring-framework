@@ -126,6 +126,7 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 	 * @see #refresh
 	 */
 	public GenericApplicationContext() {
+		// Spring的核心
 		this.beanFactory = new DefaultListableBeanFactory();
 	}
 
