@@ -111,6 +111,7 @@ public class GenericApplicationContext extends AbstractApplicationContext implem
 			GenericApplicationContext.class.getName() + ".deferredRegistryPostProcessor";
 
 
+	// SpringBoot会构造自己的context 是AnnotationConfigApplicationContext->隐式触发自己的无参构造函数->把这个BeanFactory构造成DefaultListableBeanFactory
 	private final DefaultListableBeanFactory beanFactory;
 
 	private @Nullable ResourceLoader resourceLoader;

@@ -587,41 +587,59 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			StartupStep contextRefresh = this.applicationStartup.start("spring.context.refresh");
 
 			// Prepare this context for refreshing.
+			// 1 准备context
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
+			// 2 从context中把BeanFactory对象拿出来 DefaultListableBeanFactory
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
+			// 3 增强BeanFactory context给BeanFactory准备一些基础设施
 			prepareBeanFactory(beanFactory);
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
+				// 4 context的一个扩展点 默认是空实现 预留的口子 想做一些增强操作的就重写这个方法
 				postProcessBeanFactory(beanFactory);
-
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
 				// Invoke factory processors registered as beans in the context.
+				/**
+				 * 5 让BeanFactoryPostProcessor修改BeanDefinition
+				 * SpringBoot启动的时候只往BeanFactory里面缓存了一个启动类的BeanDefinition 在这个地方就要开始围绕这个启动类的BeanDefinition找到枝枝蔓蔓
+				 * BeanFactoryPostProcessor作用时机是在Bean实例化之前 操作对象是BeanDefinition
+				 */
 				invokeBeanFactoryPostProcessors(beanFactory);
 				// Register bean processors that intercept bean creation.
+				/**
+				 * 6 BeanPostProcessor作用时机是Bean实例化过程中 操作对象是Bean对象 在实例创建过程中进行干预
+				 * 为什么要先注册BeanPostProcessor呢 因为后面会真正创建Bean
+				 */
 				registerBeanPostProcessors(beanFactory);
 				beanPostProcess.end();
 
 				// Initialize message source for this context.
+				// 7 国际化
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
+				// 8 构造事件发布器
 				initApplicationEventMulticaster();
 
 				// Initialize other special beans in specific context subclasses.
+				// 9 给具体的ApplicationContext扩展
 				onRefresh();
 
 				// Check for listener beans and register them.
+				// 10 注册ApplicationListener
 				registerListeners();
 
 				// Instantiate all remaining (non-lazy-init) singletons.
+				// 11 真正创建Bean
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.
+				// 12 所有主要的Bean都创建完成了 对context做一些最终的工作
 				finishRefresh();
 			}
 
