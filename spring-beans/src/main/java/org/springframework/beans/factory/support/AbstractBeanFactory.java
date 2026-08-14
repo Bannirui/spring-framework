@@ -121,6 +121,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	private @Nullable BeanFactory parentBeanFactory;
 
 	/** ClassLoader to resolve bean class names with, if necessary. */
+	// jvm中的代码都是.class字节码 没法直接运行 都是需要一个ClassLoader的 BeanFactory的工作中需要根据路径找到java类 拿着java类反射创建对象等都需要一个ClassLoader
 	private @Nullable ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
 	/** ClassLoader to temporarily resolve bean class names with, if necessary. */
@@ -130,6 +131,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	private boolean cacheBeanMetadata = true;
 
 	/** Resolution strategy for expressions in bean definition values. */
+	// 负责Spring表达式的解析 比如@Value("#{...}")
 	private @Nullable BeanExpressionResolver beanExpressionResolver;
 
 	/** Spring ConversionService to use instead of PropertyEditors. */

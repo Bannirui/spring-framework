@@ -185,6 +185,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	private AutowireCandidateResolver autowireCandidateResolver = SimpleAutowireCandidateResolver.INSTANCE;
 
 	/** Map from dependency type to corresponding autowired value. */
+	/**
+	 * 如果某个Bean需要某个类型的Bean 就从这个缓存里面找
+	 * 解决的是什么问题 是@Autowired注入类型
+	 */
 	private final Map<Class<?>, Object> resolvableDependencies = new ConcurrentHashMap<>(16);
 
 	/** Map of bean definition objects, keyed by bean name. */
