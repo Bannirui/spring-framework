@@ -651,7 +651,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				registerListeners();
 
 				// Instantiate all remaining (non-lazy-init) singletons.
-				// 11 真正创建Bean
+				// 11 真正创建Bean 在Spring启动过程中要创建的仅仅是单例的 非懒加载的 并不是全部的Bean 比如懒加载的只有真正使用的时候才会创建
 				finishBeanFactoryInitialization(beanFactory);
 
 				// Last step: publish corresponding event.

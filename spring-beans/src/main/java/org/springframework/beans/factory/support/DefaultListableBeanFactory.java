@@ -1113,6 +1113,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		// Iterate over a copy to allow for init methods which in turn register new bean definitions.
 		// While this may not be part of the regular factory bootstrap, it does otherwise work fine.
+		// 所有BeanDefinition
 		List<String> beanNames = new ArrayList<>(this.beanDefinitionNames);
 
 		// Trigger initialization of all non-lazy singleton beans...
@@ -1123,8 +1124,10 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		try {
 			List<CompletableFuture<?>> futures = new ArrayList<>();
 			for (String beanName : beanNames) {
+				// 拿到BeanDefinition
 				RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
 				if (!mbd.isAbstract() && mbd.isSingleton()) {
+					// 在Spring启动过程中只创建单例的Bean
 					CompletableFuture<?> future = preInstantiateSingleton(beanName, mbd);
 					if (future != null) {
 						futures.add(future);
@@ -1146,6 +1149,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 
 		// Trigger post-initialization callback for all applicable beans...
+		// 上面已经把所有的非抽象的 单例的 不是懒加载的Bean都创建好了 现在要在这些创建好的Bean里面找哪些是实现了SmartInitializingSingleton接口的 触发回调
 		for (String beanName : beanNames) {
 			Object singletonInstance = getSingleton(beanName, false);
 			if (singletonInstance instanceof SmartInitializingSingleton smartSingleton) {
@@ -1157,11 +1161,13 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 	}
 
+	// 单例Bean创建的逻辑
 	private @Nullable CompletableFuture<?> preInstantiateSingleton(String beanName, RootBeanDefinition mbd) {
 		if (mbd.isBackgroundInit()) {
 			Executor executor = getBootstrapExecutor();
 			if (executor != null) {
 				// Force initialization of depends-on beans in mainline thread.
+				// 创建Bean的时候发现它有依赖 那就先去把依赖创建好
 				String[] dependsOn = mbd.getDependsOn();
 				if (dependsOn != null) {
 					for (String dep : dependsOn) {
@@ -1195,6 +1201,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		if (!mbd.isLazyInit()) {
 			try {
+				// 不是懒加载 符合在Spring启动过程中需要创建Bean的要求 现在就创建它
 				instantiateSingleton(beanName);
 			}
 			catch (BeanCurrentlyInCreationException ex) {
@@ -1223,12 +1230,14 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 	private void instantiateSingleton(String beanName) {
 		if (isFactoryBean(beanName)) {
+			// 是FactoryBean 就按照约定名字加上&前缀 也就是说如果是FactoryBean就先调用getBean方法触发FactoryBean的创建 再调用getBean方法会触发FactoryBean创建需要的Bean
 			Object bean = getBean(FACTORY_BEAN_PREFIX + beanName);
 			if (bean instanceof SmartFactoryBean<?> smartFactoryBean && smartFactoryBean.isEagerInit()) {
 				getBean(beanName);
 			}
 		}
 		else {
+			// 普通Bean
 			getBean(beanName);
 		}
 	}

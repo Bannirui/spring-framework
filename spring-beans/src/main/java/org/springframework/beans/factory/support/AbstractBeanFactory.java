@@ -196,6 +196,19 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	// Implementation of BeanFactory interface
 	//---------------------------------------------------------------------
 
+	/**
+	 * 对于普通的Bean没有歧义
+	 * 对于FactoryBean有语义规定
+	 *   - name 是拿FactoryBean的getObject方法创建的对象
+	 *   - &name 带&前缀的名字是拿FactoryBean
+	 *
+	 * 这个函数的语义不仅拿 还会创建
+	 * 1 从缓存中能拿到
+	 *   - 一级缓存有现成的单例对象
+	 *   - 二级缓存有半成品
+	 *   - 三级缓存有ObjectFactory对象 用ObjectFactory的getObject方法创建一个对象放到二级缓存
+	 * 2 缓存中没有就用BeanDefinition构造对象
+	 */
 	@Override
 	public Object getBean(String name) throws BeansException {
 		return doGetBean(name, null, null, false);
@@ -248,6 +261,14 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	 * @return an instance of the bean
 	 * @throws BeansException if the bean could not be created
 	 */
+	/**
+	 * 这个函数的语义不仅拿 还会创建
+	 * 1 从缓存中能拿到
+	 *   - 一级缓存有现成的单例对象
+	 *   - 二级缓存有半成品
+	 *   - 三级缓存有ObjectFactory对象 用ObjectFactory的getObject方法创建一个对象放到二级缓存
+	 * 2 缓存中没有就用BeanDefinition构造对象
+	 */
 	@SuppressWarnings("unchecked")
 	protected <T> T doGetBean(
 			String name, @Nullable Class<T> requiredType, @Nullable Object @Nullable [] args, boolean typeCheckOnly)
@@ -257,6 +278,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		Object beanInstance;
 
 		// Eagerly check singleton cache for manually registered singletons.
+		/**
+		 * 1 从缓存中能拿到
+		 *   - 一级缓存有现成的单例对象
+		 *   - 二级缓存有半成品
+		 *   - 三级缓存有ObjectFactory对象 用ObjectFactory的getObject方法创建一个对象放到二级缓存
+		 * 2 缓存中没有就用BeanDefinition构造对象
+		 */
 		Object sharedInstance = getSingleton(beanName);
 		if (sharedInstance != null && args == null) {
 			if (logger.isTraceEnabled()) {
@@ -309,6 +337,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				if (requiredType != null) {
 					beanCreation.tag("beanType", requiredType::toString);
 				}
+				// 拿到BeanDefinition 准备创建Bean
 				RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
 				checkMergedBeanDefinition(mbd, beanName, args);
 

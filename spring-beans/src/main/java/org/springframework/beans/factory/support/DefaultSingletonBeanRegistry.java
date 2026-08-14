@@ -205,6 +205,7 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 
 	@Override
 	public @Nullable Object getSingleton(String beanName) {
+		// 取缓存
 		return getSingleton(beanName, true);
 	}
 
@@ -216,27 +217,41 @@ public class DefaultSingletonBeanRegistry extends SimpleAliasRegistry implements
 	 * @param allowEarlyReference whether early references should be created or not
 	 * @return the registered singleton object, or {@code null} if none found
 	 */
+	/**
+	 * 到缓存里面取
+	 *   - 先到一级缓存拿全乎的单例Bean
+	 *   - 再到二级缓存拿半成品的Bean
+	 *   - 还是没有说明可能因为循环依赖 看看三级缓存有没有ObjectFactory对象 用ObjectFactory.getObject创建半成品Bean再丢到二级缓存去
+	 * @param allowEarlyReference 控制什么的 一级跟二级缓存都没有情况 允许用三级缓存的ObjectFactory生产一个早期暴露的Bean出来
+	 */
 	protected @Nullable Object getSingleton(String beanName, boolean allowEarlyReference) {
 		// Quick check for existing instance without full singleton lock.
+		// 先去一级缓存中拿 有的话说明已经是创建好的Bean了
 		Object singletonObject = this.singletonObjects.get(beanName);
 		if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
+			// 到二级缓存中拿实例化好但是还没完全初始化好的
 			singletonObject = this.earlySingletonObjects.get(beanName);
 			if (singletonObject == null && allowEarlyReference) {
+				// 二级缓存中没有
 				if (!this.singletonLock.tryLock()) {
 					// Avoid early singleton inference outside of original creation thread.
 					return null;
 				}
 				try {
+					// 下面就属于上锁后的double check了 再从一级二级找一遍看看能不能找到 防止上锁期间已经创建好了
 					// Consistent creation of early reference within full singleton lock.
 					singletonObject = this.singletonObjects.get(beanName);
 					if (singletonObject == null) {
 						singletonObject = this.earlySingletonObjects.get(beanName);
 						if (singletonObject == null) {
+							// 二级缓存还没有 那就有可能是因为循环依赖 在三级缓存里面放了个ObjectFactory
 							ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
 							if (singletonFactory != null) {
+								// 用三级缓存里面的ObjectFactory对象调用getObject方法创建个半成品Bean对象放到二级缓存去
 								singletonObject = singletonFactory.getObject();
 								// Singleton could have been added or removed in the meantime.
 								if (this.singletonFactories.remove(beanName) != null) {
+									// 把FactoryBean创建出来的Bean作为半成品放到二级缓存
 									this.earlySingletonObjects.put(beanName, singletonObject);
 								}
 								else {
